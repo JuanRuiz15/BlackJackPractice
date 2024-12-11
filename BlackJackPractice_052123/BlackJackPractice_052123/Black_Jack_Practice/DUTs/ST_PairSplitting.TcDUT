@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_PairSplitting" Id="{63e96d70-8dbb-431b-8995-2686c681d422}">
+    <Declaration><![CDATA[TYPE ST_PairSplitting :
+STRUCT
+	//Player has a pair of 2s or 3s and dealer showing a 2 or 3, split if allowed to double after split. Otherwise, don't split.
+	//Player has a pair of 2s or 3s and dealer showing a 4-7, split. If dealer shows a 8 or higher don't split.
+	//Player has a pair of 4s and dealer showing a 5 or 6, split if allowed to double after split. Otherwise, don't split.
+	//Player has a pair of 5s, never split.
+	//Player has a pair of 6s and dealer showing a 2, split if allowed to double after split. Otherwise, don't split.
+	//Player has a pair of 6s and dealer showing a 3-6, split. Otherwise, don't split.
+	//Player has a pair of 7s and dealer showing a 2-7, split. Otherwise, don't split.
+	//Player has a pair of 8s, always split.
+	//Player has a pair of 9s and dealer shows a 2-6, 8, or 9, split. Otherwise, don't split.
+	//Player has a pair of 10s, never split.
+	//Player has a pair of As, always split.
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

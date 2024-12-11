@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <GVL Name="GVL_Global" Id="{a5435e6b-b687-49cf-bb4a-1074258569b8}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	//Vars
+	bClear_Complete			: BOOL;							//Clear command complete
+	bEndGame				: BOOL;							//Game has been ended.
+	bGameInProgress			: BOOL;							//Game is running
+	bGameIsPaused			: BOOL;							//Game is paused
+    bInitialStart			: BOOL;							//Initial start to the game	- controlled by user	
+	bReadyToStart			: BOOL;							//Game can now be started
+	bStep					: ARRAY [0..63] OF BOOL;  		//Game Play Sequence Step number trigger
+	bVariationSelected		: BOOL;							//Variation has been selected
+	iStepNumber				: DINT;							//Game Play Sequence Step number
+	iVariationSelection		: DINT;							//User selection for BlackJack variation
+	sErrorInstruction		: STRING(255);					//Error Instruction feedack to player
+	sSetupInstructions		: ARRAY[0..99] OF STRING(255);	//Set up instructions for game play
+	sInstruction			: STRING(255);					//Instruction for player
+	sCardNumbers			: ARRAY[0..12] OF STRING(255);  //Card numbers in a deck (2-10, J, K, Q, A)
+	sCardSuit				: ARRAY[0..4] OF STRING(255);   //Card suits - 4 cards of each suit Clubs, Diamonds, Bishops, Hearts)	
+	
+	//Structs
+	stDealer				: ST_Dealer;					//Dealer info
+	stGamePlay				: ST_GamePlay;					//Game play vars
+	stGameSetup				: ST_GameSetup;
+	stHelp					: ST_PlayerHelp;				//Help for player to reference basic strategy for common blackjack
+	stHMI					: ST_HMI;						//HMI variables
+	stPlayer				: ARRAY[0..5] OF ST_Player;		//Player(s) info
+	stTable					: ST_Table_Info;				//Black Jack table information
+	stStepSequencer			: ST_StepSequencer;				//Sequencer
+	
+	//Enums
+	eBJVariation			: E_BlackJackVariation;			//BlackJack variation
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

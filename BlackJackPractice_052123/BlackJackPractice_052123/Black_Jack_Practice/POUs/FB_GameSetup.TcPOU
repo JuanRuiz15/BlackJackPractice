@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_GameSetup" Id="{84ee8ec1-a4ad-4f71-bbc3-2b9c2539696b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_GameSetup
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	i	: DINT;
+	j	: DINT;
+	k	: DINT;
+	m	: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Decode sequencer step bits
+MEMSET(ADR(GVL_Global.bStep), 0, SIZEOF(GVL_Global.bStep));
+GVL_Global.stGameSetup.stStep[GVL_Global.stGameSetup.iStepNumber] := TRUE;
+
+//Choose blackjack variation: 1 - Common BlackJack, 2 - Free Bet BlackJack, 3 - Spanish 21
+IF GVL_Global.eBJVariation.Idle = GVL_Global.iVariationSelection THEN
+	//Wait for user to select a BlackJack variation
+	GVL_Global.sInstruction := 'Please choose a blackjack variation to play.';
+END_IF
+
+IF GVL_Global.iVariationSelection >= 1 AND GVL_Global.iVariationSelection <= 3 THEN
+	//Set up initial information regarding card, card suit, and deck information
+	FOR m := 0 TO 9 DO
+		GVL_Global.stGameSetup.sCards[m] := INT_TO_STRING(m+2);
+	END_FOR
+	GVL_Global.stGameSetup.sCards[10] := 'J';
+	GVL_Global.stGameSetup.sCards[11] := 'Q';
+	GVL_Global.stGameSetup.sCards[12] := 'K';
+	GVL_Global.stGameSetup.sCards[13] := 'A';
+	
+	GVL_Global.stGameSetup.sCardSuit[0] := 'Clubs';
+	GVL_Global.stGameSetup.sCardSuit[1] := 'Diamonds';
+	GVL_Global.stGameSetup.sCardSuit[2] := 'Bishops';
+	GVL_Global.stGameSetup.sCardSuit[3] := 'Hearts';
+	GVL_Global.stGameSetup.iStepNumber := 2;
+ELSE
+	GVL_Global.stGameSetup.iStepNumber := 0;
+END_IF
+
+//GVL_Global.sInstruction := 'Please choose a blackjack variation to play.';
+//IF GVL_Global.iVariationSelection >=1 AND GVL_Global.iVariationSelection <= 3 THEN
+//	GVL_Global.stGameSetup.iStepNumber := 2;
+//ELSE
+//	GVL_Global.stGameSetup.iStepNumber := 0;
+//END_IF
+
+//Error State
+IF GVL_Global.stGameSetup.stStep.bStep[0] THEN
+	//False entry was entered
+	GVL_Global.stGamePlay.sMessageType.sErrorMessage := 'You entered a wrong variation input. Please try again.';
+	GVL_Global.stGamePlay.bVariationSelected := FALSE;
+	GVL_Global.stGamePlay.iVariationSelection := 0;
+END_IF
+
+
+//Idle State
+IF GVL_Global.stGameSetup.stStep.bStep[1] THEN
+	GVL_Global.stGamePlay.sMessageType.sErrorMessage := 'Game is ongoing.';
+	IF GVL_Global.stGamePlay.bReadyToStart AND GVL_Global.stGameSetup.bBankRollComplete THEN
+		GVL_Global.stGamePlay.iStepNumber := 1;
+	ELSE
+		GVL_Global.stGamePlay.iStepNumber := 0;
+	END_IF
+END_IF
+
+//Blackjack Deviation Selection
+IF GVL_Global.stGameSetup.stStep.bStep[2] THEN
+	IF GVL_Global.eBJVariation.Common_BlackJack = GVL_Global.iVariationSelection THEN
+		//Common Blackjack was selected
+		GVL_Global.stGameSetup.stMessageType.sInstructionMessage := 'Variation selected: Common Blackjack.';
+	ELSIF GVL_Global.eBJVariation.FreeBet_BlackJack = GVL_Global.iVariationSelection THEN
+		GVL_Global.stGameSetup.stMessageType.sInstructionMessage := 'Variation selected: Free Bet Blackjack.';
+	ELSIF GVL_Global.eBJVariation.Spanish21 = GVL_Global.iVariationSelection THEN
+		GVL_Global.stGameSetup.stMessageType.sInstructionMessage := 'Variation selected: Spanish 21.';
+	END_IF
+	GVL_Global.stGameSetup.iStepNumber := 3;
+END_IF
+
+//Choose 2 sidebets: 1 - Buster BlackJack, 2 - Dealer 16, 3 - Lucky Lucky, 4 - Match the Dealer, 5 - Pot of Gold (TBD)
+//Side Bets Selection
+IF GVL_Global.stGameSetup.stStep.bStep[3] THEN
+	GVL_Global.stGameSetup.stMessageType.sRulesForGame[0] := 'Choose two (2) side bets: 1 - Buster BlackJack, 2 - Dealer 16, 3 - Lucky Lucky, 4 - Match the Dealer, 5 - Pot of Gold';
+	GVL_Global.stGameSetup.stMessageType.sInstructionMessage[1] := 'Enter in text box labeled -> Side Bets To Play';
+	GVL_Global.stGameSetup.stMessageType.sInstructionMessage[2] := 'Choose two (2) side bets: 1 - Buster BlackJack, 2 - Dealer 16, 3 - Lucky Lucky, 4 - Match the Dealer, 5 - Pot of Gold';
+	GVL_Global.stGameSetup.stMessageType.sInstructionMessage := 'Enter in the following prompt: #,#';
+	//Side Bet Choices Decoded
+	GVL_Global.stGameSetup.stSideBetChoice.iFind := FIND(',',GVL_Global.stGameSetup.stSideBetChoice.sSideBetSelections);
+	GVL_Global.stGameSetup.stSideBetChoice.iSideBet_One := STRING_TO_INT(LEFT(GVL_Global.stGameSetup.stSideBetChoice.sSideBetSelections,GVL_Global.stGameSetup.stSideBetChoice.iFind-1));
+	GVL_Global.stGameSetup.stSideBetChoice.iSideBet_Two := STRING_TO_INT(RIGHT(GVL_Global.stGameSetup.stSideBetChoice.sSideBetSelections,GVL_Global.stGameSetup.stSideBetChoice.iFind+1));
+	//Side bet #1 chosen
+	IF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_One = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.BusterBlackjack THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bBusterBlackjackSelected := TRUE;
+		//GVL_Global.stGameSetup.sSideBetChoice.iSideBetSelections.0 := TRUE;
+	ELSIF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_One = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.Dealer16 THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bDealer16Selected := TRUE;
+		//GVL_Global.stGameSetup.sSideBetChoice.iSideBetSelections.1 := TRUE;
+	ELSIF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_One = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.LuckyLucky THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bLuckyLuckySelected := TRUE;
+		//GVL_Global.stGameSetup.sSideBetChoice.iSideBetSelections.2 := TRUE;
+	ELSIF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_One = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.MatchtheDealer THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bMatchtheDealerSelected := TRUE;
+	END_IF
+	//Side bet #2 chosen
+	IF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_Two = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.BusterBlackjack THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bBusterBlackjackSelected := TRUE;
+	ELSIF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_Two = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.Dealer16 THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bDealer16Selected := TRUE;
+	ELSIF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_Two = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.LuckyLucky THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bLuckyLuckySelected := TRUE;
+	ELSIF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_Two = GVL_Global.stGameSetup.stSideBetChoice.eSideBetChoice.MatchtheDealer THEN
+		GVL_Global.stGameSetup.stSideBetChoice.bMatchtheDealerSelected := TRUE;
+	END_IF
+	
+	IF GVL_Global.stGameSetup.stSideBetChoice.iSideBet_One <> 0 AND GVL_Global.stGameSetup.stSideBetChoice.iSideBet_Two <> 0 THEN
+		GVL_Global.stGameSetup.iStepNumber := 4;
+	END_IF
+END_IF
+
+//Input number of players/hands to be dealt. Max of 6.
+IF GVL_Global.stGameSetup.stStep.bStep[4] THEN
+	GVL_Global.stGamePlay.sMessageType.sInstructionMessage := 'Please enter number of players/hands going to play';
+	IF GVL_Global.stTable.iNumberofPlayers >= 1 AND GVL_Global.stTable.iNumberofPlayers <= 6 THEN
+		//GVL_Global.stTable.iNumberofPlayers;
+		FOR i := 1 TO GVL_Global.stTable.iNumberofPlayers DO
+			GVL_Global.stGameSetup.stPlayer[i].bSeatPlaying := TRUE;	
+		END_FOR
+		//GVL_Global.stGameSetup.iSeatsOpen := GVL_Global.stTable.iNumberofPlayers + 1;
+		GVL_Global.stGamePlay.iStepNumber := 5;
+	ELSE
+		//Number of players entered is invalid.
+		GVL_Global.stGameSetup.stMessageType.sErrorMessage := 'Entered invalid number of players. Please try again.';
+	END_IF
+	//
+//GVL_Global.stGamePlay.iStepNumber := 3;
+END_IF
+
+//Input number of decks to be dealt.
+IF GVL_Global.stGameSetup.stStep.bStep[5] THEN
+	GVL_Global.stGamePlay.sMessageType.sInstructionMessage := 'Please enter number of decks to deal (1-6)';
+	IF GVL_Global.stTable.iNumberofDecks >= 1 AND GVL_Global.stTable.iNumberofDecks <= 6 THEN
+		GVL_Global.stGamePlay.sMessageType.sInstructionMessage := CONCAT('Dealer will deal a total of ',DINT_TO_STRING(GVL_Global.stTable.iNumberofDecks));
+		GVL_Global.stGamePlay.iStepNumber := 6;
+	ELSE
+		//Number of decks entered is invalid.
+		GVL_Global.stGameSetup.stMessageType.sErrorMessage := 'Entered invalid number of decks. Please try again.';
+	END_IF
+END_IF
+
+//Input table minimum bet.
+IF GVL_Global.stGameSetup.stStep.bStep[6] THEN
+	GVL_Global.stGamePlay.sMessageType.sInstructionMessage := 'Please enter the minimum bet to play.';
+	IF GVL_Global.stTable.iMinimumBet >= 5 THEN
+		GVL_Global.stGamePlay.sMessageType.sInstructionMessage := CONCAT('Minimum table bet is ',DINT_TO_STRING(GVL_Global.stTable.iMinimumBet));
+		GVL_Global.stGamePlay.iStepNumber := 7;
+	ELSE
+		//Number of decks entered is invalid.
+		GVL_Global.stGameSetup.stMessageType.sErrorMessage := 'Entered an invalid table bet. Please try again.';
+	END_IF
+END_IF
+
+//Input table max bet. - May not use - TBD
+IF GVL_Global.stGameSetup.stStep.bStep[7] THEN
+	GVL_Global.stGamePlay.iStepNumber := 8;
+END_IF
+
+//Set up players/seats who are playing.
+IF GVL_Global.stGameSetup.stStep.bStep[8] THEN
+	FOR j := 1 TO GVL_Global.stTable.iNumberofPlayers DO
+		GVL_Global.stGameSetup.stPlayer[j].iSeat := j;
+	END_FOR
+	GVL_Global.stGamePlay.iStepNumber := 9;
+END_IF
+
+//Input starting bank roll.
+IF GVL_Global.stGameSetup.stStep.bStep[9] THEN
+	GVL_Global.stGamePlay.sMessageType.sInstructionMessage := 'Please enter bankroll for each player.';
+	IF GVL_Global.stGameSetup.bBankRollComplete THEN
+		GVL_Global.stGamePlay.sMessageType := 'Details for chips: Reds - 5, Whites - 25, Blues - 100, Greens - 500, Blacks - 1 or 1000';
+		GVL_Global.stGamePlay.iStepNumber := 10;
+	END_IF
+END_IF
+
+//Chips given: Reds - $5, Whites - $25, Blues - $100, Greens - $500, Blacks - $1  
+
+//Finalize Game Setup
+IF GVL_Global.stGameSetup.stStep.bStep[10] THEN
+	GVL_Global.stGamePlay.sMessageType.sInstructionMessage := 'Ready to start the game?';
+	IF GVL_Global.stGamePlay.bReadyToStart THEN
+		GVL_Global.stGameSetup.bGameSetupComplete := TRUE;
+		GVL_Global.stGamePlay.iStepNumber := 1;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_GameSetup">
+      <LineId Id="206" Count="2" />
+      <LineId Id="504" Count="0" />
+      <LineId Id="389" Count="0" />
+      <LineId Id="210" Count="2" />
+      <LineId Id="218" Count="0" />
+      <LineId Id="530" Count="0" />
+      <LineId Id="532" Count="0" />
+      <LineId Id="537" Count="11" />
+      <LineId Id="536" Count="0" />
+      <LineId Id="533" Count="2" />
+      <LineId Id="531" Count="0" />
+      <LineId Id="219" Count="18" />
+      <LineId Id="239" Count="1" />
+      <LineId Id="488" Count="0" />
+      <LineId Id="490" Count="1" />
+      <LineId Id="489" Count="0" />
+      <LineId Id="242" Count="22" />
+      <LineId Id="288" Count="0" />
+      <LineId Id="290" Count="1" />
+      <LineId Id="289" Count="0" />
+      <LineId Id="299" Count="0" />
+      <LineId Id="303" Count="0" />
+      <LineId Id="321" Count="0" />
+      <LineId Id="305" Count="1" />
+      <LineId Id="322" Count="0" />
+      <LineId Id="308" Count="1" />
+      <LineId Id="323" Count="0" />
+      <LineId Id="310" Count="0" />
+      <LineId Id="307" Count="0" />
+      <LineId Id="304" Count="0" />
+      <LineId Id="311" Count="0" />
+      <LineId Id="313" Count="7" />
+      <LineId Id="312" Count="0" />
+      <LineId Id="359" Count="0" />
+      <LineId Id="266" Count="1" />
+      <LineId Id="360" Count="0" />
+      <LineId Id="268" Count="2" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="334" Count="1" />
+      <LineId Id="331" Count="0" />
+      <LineId Id="340" Count="3" />
+      <LineId Id="379" Count="0" />
+      <LineId Id="373" Count="0" />
+      <LineId Id="375" Count="1" />
+      <LineId Id="346" Count="0" />
+      <LineId Id="333" Count="0" />
+      <LineId Id="380" Count="0" />
+      <LineId Id="271" Count="0" />
+      <LineId Id="392" Count="0" />
+      <LineId Id="272" Count="0" />
+      <LineId Id="393" Count="2" />
+      <LineId Id="399" Count="0" />
+      <LineId Id="408" Count="0" />
+      <LineId Id="402" Count="3" />
+      <LineId Id="273" Count="0" />
+      <LineId Id="409" Count="0" />
+      <LineId Id="274" Count="0" />
+      <LineId Id="410" Count="8" />
+      <LineId Id="275" Count="0" />
+      <LineId Id="419" Count="0" />
+      <LineId Id="276" Count="0" />
+      <LineId Id="439" Count="0" />
+      <LineId Id="443" Count="0" />
+      <LineId Id="277" Count="0" />
+      <LineId Id="465" Count="0" />
+      <LineId Id="467" Count="2" />
+      <LineId Id="472" Count="2" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="455" Count="0" />
+      <LineId Id="278" Count="0" />
+      <LineId Id="430" Count="1" />
+      <LineId Id="452" Count="0" />
+      <LineId Id="478" Count="0" />
+      <LineId Id="438" Count="0" />
+      <LineId Id="477" Count="0" />
+      <LineId Id="429" Count="0" />
+      <LineId Id="279" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="480" Count="0" />
+      <LineId Id="479" Count="0" />
+      <LineId Id="482" Count="2" />
+      <LineId Id="493" Count="0" />
+      <LineId Id="492" Count="0" />
+      <LineId Id="487" Count="0" />
+      <LineId Id="481" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

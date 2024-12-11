@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_Player" Id="{b6d041b5-4e54-4cc3-85a0-a8597b1628c5}">
+    <Declaration><![CDATA[TYPE ST_Player :
+STRUCT
+	//Player hand
+	sCard				: ARRAY[0..9] OF STRING(255); 	//Each card player has drawn
+	sCardSuit			: ARRAY[0..9] OF STRING(255); 	//Each card's suit player has drawn	
+	bBust				: BOOL;							//Player's has busted
+	bSeatPlaying		: BOOL;							//Seat/hand is occupied to play
+	bSeatNotPlaying		: BOOL;							//Seat/hand is not being occupied
+	iHandTotal			: DINT;							//Player's hand total
+	iNumberofCards		: DINT;							//Number of cards player has drawn
+	iStartingBankRoll	: DINT;							//Player's starting bank roll
+	iSeat				: DINT;							//Player's seat (1-6)
+	sHand				: ARRAY[0..9] OF STRING(255);	//Player Hand
+	rAvailableBalance	: REAL;							//Available balance player still has
+	rBetAmount			: REAL;							//Amount player is betting
+	rTotal				: REAL;							//Cash amount player is leaving with
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

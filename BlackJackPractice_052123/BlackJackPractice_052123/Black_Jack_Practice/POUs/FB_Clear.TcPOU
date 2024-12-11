@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_Clear" Id="{e8012a5a-0b92-430e-ade0-108e7e96b389}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Clear
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	i	: INT;
+	j	: INT;
+	k	: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Clear Player(s) Info
+FOR k := 0 TO 5 DO
+	GVl_Global.stPlayer[k].bBust := FALSE;
+	GVL_Global.stPlayer[k].iHandTotal := 0;
+	GVL_Global.stPlayer[k].iNumberofCards := 0;
+	GVL_Global.stPlayer[k].rAvailableBalance := 0;
+	GVL_Global.stPlayer[k].rBetAmount := 0;
+	GVL_Global.stPlayer[k].rTotal := 0;
+	GVL_Global.stPlayer[k].sHand[k] := '';
+	IF k >= 5 THEN
+		GVL_Global.stPlayer[k].sHand[6] := '';
+		GVL_Global.stPlayer[k].sHand[7] := '';
+		GVL_Global.stPlayer[k].sHand[8] := '';
+		GVL_Global.stPlayer[k].sHand[9] := '';
+	END_IF
+END_FOR
+
+FOR i := 0 TO 9 DO
+	GVL_Global.stPlayer[i].sCard[i] := '';
+	GVL_Global.stPlayer[i].sCardSuit[i] := '';
+	GVL_Global.stDealer.sCard[i] := '';
+	GVL_Global.stDealer.sCardSuit[i] := '';
+END_FOR
+
+//Clear Dealer Info
+GVl_Global.stDealer.bBust := FALSE;
+GVL_Global.stDealer.iHandTotal := 0;
+GVL_Global.stDealer.iNumberofCards := 0;
+FOR j := 0 TO 9 DO
+	GVL_Global.stDealer.sHand[j] := '';	
+END_FOR
+
+//Clear Table Info
+GVL_Global.stTable.bSideBets := FALSE;
+GVL_Global.stTable.iInsuranceOdds := 0;
+GVL_Global.stTable.iMinimumBet := 0;
+GVL_Global.stTable.iNumberofDecks := 0;
+GVL_Global.stTable.iNumberofPlayers := 0;
+GVL_Global.stTable.rTableOdds := 0;
+
+GVL_Global.bClear_Complete := TRUE;
+GVL_Global.bReadyToStart := TRUE;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Clear">
+      <LineId Id="9" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="84" Count="4" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="90" Count="2" />
+      <LineId Id="94" Count="2" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="40" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="30" Count="2" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="46" Count="3" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="60" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

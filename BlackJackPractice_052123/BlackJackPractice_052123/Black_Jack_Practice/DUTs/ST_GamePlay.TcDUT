@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_GamePlay" Id="{5bd16325-8bd4-4f89-99a3-77092f47dd29}">
+    <Declaration><![CDATA[TYPE ST_GamePlay :
+STRUCT
+	//Vars
+	bClear					: BOOL;							//Clear all variables
+ 	bInitialStart			: BOOL;							//Initial start to the game		
+	bReadyToStart			: BOOL;							//Game can now be started
+	bStart					: BOOL;							//Start program
+	bVariationSelected		: BOOL;							//Variation has been selected
+	iStepNumber				: DINT;							//Game Play Sequence Step number
+	iVariationSelection		: DINT;							//User selection for BlackJack variation
+	
+	//Structs
+	sMessageType			: ST_Messages;					//Messages for feeback to player
+	bStep					: ST_StepSequencer;  			//Game Play Sequence Step number trigger
+	
+	//Enums
+	eBJVariation			: E_BlackJackVariation;			//BlackJack variation
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

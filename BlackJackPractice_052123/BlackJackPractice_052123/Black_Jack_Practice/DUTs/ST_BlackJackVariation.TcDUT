@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_BlackJackVariation" Id="{3e674366-d6c6-410e-8247-3cbb88d27050}">
+    <Declaration><![CDATA[TYPE ST_BlackJackVariation :
+STRUCT
+	bCommonBlackJack	: BOOL; //Common Black Jack
+	bFreeBetBlackJack	: BOOL;	//Free Bet Black Jack
+	bSpanish21			: BOOL; //Spanish 21
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

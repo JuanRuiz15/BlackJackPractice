@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_Table_Info" Id="{5565d23c-9e61-49a2-ba60-c01978a9be04}">
+    <Declaration><![CDATA[TYPE ST_Table_Info :
+STRUCT
+	bSideBets				:	BOOL; //Determines if side bets will be played.
+	iInsuranceOdds			:	DINT; //Percentage or ratio that insurance will pay.
+	iMinimumBet				:	DINT; //Minimum table bet that each player must put in if 
+	iNumberofDecks			:	DINT; //Number of decks that will be dealt.
+	iNumberofPlayers		:	DINT; //Number of players that will play (Max 6 players).
+	rTableOdds				:	REAL; //Percentage or ratio that table deals for a Black Jack.
+	
+	//Structs
+	stBlackJackVariation	:	ST_BlackJackVariation;	//Type of Black Jack variation to play.
+	stSideBetChoice			:	ST_SideBetChoice;		//Side bets available to play.
+	
+	//Enums
+	eBlackJackVariation		:	E_BlackJackVariation; 	//Type of Black Jack variation to play.
+	
+	
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

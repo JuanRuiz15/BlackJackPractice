@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_SoftTotals" Id="{16d7a5b9-4551-42e1-8ae5-987ae52c54e1}">
+    <Declaration><![CDATA[TYPE ST_SoftTotals :
+STRUCT
+	//Player has a A,2 or A,3 and dealer showing a 5 or 6, double. Otherwise, hit.
+	//Player has a A,4 or A,5 and dealer showing a 4, 5 or 6, double. Otherwise, hit.
+	//Player has a A,6 and dealer showing a 3-6, double. Otherwise, hit.
+	//Player has a A,7 and dealer showing a 2-6, double if allowed. If not, stand on a dealer 2-8 or hit on a dealer 9-10. 
+	//Player has a A,8 and dealer showing a 6, double if allowed. If not, always stand on every hand.
+	//Player has a A,9 always stand.
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

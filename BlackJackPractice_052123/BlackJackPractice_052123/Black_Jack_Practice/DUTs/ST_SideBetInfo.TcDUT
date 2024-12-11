@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_SideBetInfo" Id="{ae311586-ab0a-4d92-abbc-be4b263e37c3}">
+    <Declaration><![CDATA[TYPE ST_SideBetInfo :
+STRUCT
+	aRules	: ARRAY[0..31] OF STRING(255); //Rules for side bet
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

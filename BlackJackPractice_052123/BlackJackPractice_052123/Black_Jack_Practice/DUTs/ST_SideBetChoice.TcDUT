@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_SideBetChoice" Id="{895c4184-5be5-484f-b3da-073a3a179a19}">
+    <Declaration><![CDATA[TYPE ST_SideBetChoice :
+STRUCT
+	bBusterBlackjackSelected	: BOOL;			//Buster Blackjack was chosen
+	bDealer16Selected			: BOOL;			//Dealer 16 was chosen
+	bLuckyLuckySelected			: BOOL;			//Lucky Lucky was chosen
+	bMatchtheDealerSelected		: BOOL;			//Match the dealer was chosen
+	bPotofGoldSelected			: BOOL;			//Pot of Gold was chosen
+	iFind						: INT;			//Variable keeping track of side bet selections
+	sSideBetSelections			: STRING(255);	//Side Bet choices
+	sSideBetSelectionsDecoded	: STRING(255);	//Side Bet choices decoded to find side bet selections
+	iSideBet_One				: INT;  		//Side bet selection #1
+	iSideBet_Two				: INT;  		//Side bet selection #2
+	iSideBetSelections			: UINT;			//Side bet selections permissives
+	
+	//Structs
+	stBusterBlackJack			: ST_SideBetInfo; //Buster Black Jack side bet
+	stDealer16					: ST_SideBetInfo; //Dealer 16 side bet - dealer must got a 6 and 10 with first 2 cards
+	stLuckyLucky				: ST_SideBetInfo; //Lucky Lucky side bet
+	stMatchtheDealer			: ST_SideBetInfo; //Match the Dealer side bet
+	stPotofGold					: ST_SideBetInfo; //Pot of Gold side bet (TBD)
+	
+	//Enums
+	eSideBetChoice				: E_SideBetChoice;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

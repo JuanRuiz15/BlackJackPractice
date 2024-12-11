@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_SurrenderHands" Id="{79a0a2ab-dc75-47aa-9327-bd58006616e8}">
+    <Declaration><![CDATA[TYPE ST_SurrenderHands :
+STRUCT
+	//Player has a 15 and dealer is showing a 10
+	//Player has a 16 and dealer is showing a 9, 10 or A
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

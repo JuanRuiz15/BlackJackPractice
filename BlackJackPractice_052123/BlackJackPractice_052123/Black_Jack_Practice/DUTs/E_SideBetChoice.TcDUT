@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="E_SideBetChoice" Id="{9d03dd8b-bb87-4e7d-9e88-cc724d80066c}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_SideBetChoice :
+(
+	BusterBlackjack := 0,
+	Dealer16 := 1,
+	LuckyLucky := 2,
+	MatchtheDealer := 3
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

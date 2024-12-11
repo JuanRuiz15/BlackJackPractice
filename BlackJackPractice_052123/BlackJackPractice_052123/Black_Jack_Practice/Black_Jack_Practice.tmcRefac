@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="5565d23c-9e61-49a2-ba60-c01978a9be04">ST_TABLE_RULES</Type>
+      <From>ST_Table_Rules</From>
+      <To>ST_Table_Info</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="895c4184-5be5-484f-b3da-073a3a179a19">ST_SIDEBET</Type>
+      <From>ST_SideBet</From>
+      <To>ST_SideBetChoice</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="cf948190-7967-499f-ab42-953edd3f9fa5">ST_PLAYER_1</Type>
+      <From>ST_Player_1</From>
+      <To>ST_Dealer</To>
+    </RenamedType>
+    <RenamedSymbol>
+      <Type guid="a5435e6b-b687-49cf-bb4a-1074258569b8">GVL_Global</Type>
+      <From>iGamePlaySequencer</From>
+      <To>iStepNumber</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="eb4bf6d7-31b0-4bd6-b6d1-29fb97d56025">ST_GameSetup</Type>
+      <From>iSideBetChoice_One</From>
+      <To>bSideBetChoice_One</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="eb4bf6d7-31b0-4bd6-b6d1-29fb97d56025">ST_GameSetup</Type>
+      <From>iSideBetChoice_Two</From>
+      <To>bSideBetChoice_Two</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="eb4bf6d7-31b0-4bd6-b6d1-29fb97d56025">ST_GameSetup</Type>
+      <From>sMessageType</From>
+      <To>stMessageType</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="eb4bf6d7-31b0-4bd6-b6d1-29fb97d56025">ST_GameSetup</Type>
+      <From>bStep</From>
+      <To>stStep</To>
+    </RenamedSymbol>
+    <RenamedSymbol>
+      <Type guid="eb4bf6d7-31b0-4bd6-b6d1-29fb97d56025">ST_GameSetup</Type>
+      <From>sSideBetChoice</From>
+      <To>stSideBetChoice</To>
+    </RenamedSymbol>
+  </Renames>
+</Refactors>

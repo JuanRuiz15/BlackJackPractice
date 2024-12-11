@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_GameSetup" Id="{eb4bf6d7-31b0-4bd6-b6d1-29fb97d56025}">
+    <Declaration><![CDATA[TYPE ST_GameSetup :
+STRUCT
+	//Vars
+	bVariationSelected		: BOOL;							//Variation has been selected
+	bSideBetChoice_One		: BOOL;							//First side bet picked
+	bSideBetChoice_Two		: BOOL;							//Second side bet picked
+	bBankRollComplete		: BOOL;							//Bank roll for each player has been inputed
+	bGameSetupComplete		: BOOL;							//Game setup has been complete
+	iStepNumber				: DINT;							//Game Play Sequence Step number
+	iSeatsOpen				: DINT;							//Seats/hand left open
+	sCards					: ARRAY[0..13] OF STRING(255);	//Array for card values in a deck
+	sCardSuit				: ARRAY[0..3] OF STRING(255);	//Array of card suits in a deck
+	
+	//Structs
+	stMessageType			: ST_Messages;					//Messages for feeback to player
+	stStep					: ST_StepSequencer;  			//Game Play Sequence Step number trigger
+	stPlayer				: ARRAY[1..6] OF ST_Player;
+	stSideBetChoice			: ST_SideBetChoice;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_HardTotals" Id="{079be881-6f1d-4c19-b024-8e0dc0a21147}">
+    <Declaration><![CDATA[TYPE ST_HardTotals :
+STRUCT
+	//Player has a 8 or lower, always hit.
+	//Player has a 9 and dealer showing a 3-6, double. Otherwise, hit.
+	//Player has a 10 and dealer showing a 10 or A, stand. Otherwise, double.
+	//Player has a 11, always double.
+	//Player has a 12 and dealer showing a 4-6, stand. Otherwise, hit.
+	//Player has a 13-16 and dealer showing a 2-6, stand. Otherwise, hit.
+	//Player has a 17 or higher, always stand.
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

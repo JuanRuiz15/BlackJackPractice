@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_Messages" Id="{95086100-e0ba-4f96-81f1-f3d2394044ef}">
+    <Declaration><![CDATA[TYPE ST_Messages :
+STRUCT
+	bErrorMessage				: BOOL;							//Error message has been displayed
+	bFeedbackMessage			: BOOL;							//Feedback message has been displayed
+	bInstructionMessage			: BOOL;							//Instruction message has been displayed
+	bMessageToBeRecorded		: BOOL;							//Need to record message
+	i							: DINT;							//Iterator
+	sErrorMessage				: STRING(255);					//Error Instruction feedback to player
+	sFeedbackMessage			: STRING(255);					//Feedback messages to player
+	sInstructionMessage			: STRING(255);					//Instruction messages to player
+	sErrorMessageHistory		: ARRAY[0..99] OF STRING(255);	//Error message history log
+	sFeedbackMessageHistory		: ARRAY[0..99] OF STRING(255);	//Feedback message history
+	sInstructionMessageHistory	: ARRAY[0..99] OF STRING(255);	//Instruction message history
+	sRulesForGame				: ARRAY[0..99] OF STRING(255);	//Game rules for deviation
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

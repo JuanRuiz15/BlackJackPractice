@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_GamePlay" Id="{6b6e1877-5bf4-42b4-a300-e43fe1977a81}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_GamePlay
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Decode sequencer step bits
+MEMSET(ADR(GVL_Global.bStep), 0, SIZEOF(GVL_Global.bStep));
+GVL_Global.bStep[GVL_Global.iStepNumber] := TRUE;
+
+//States
+// 0 = Idle - Game is waiting for user to start game
+IF GVL_Global.bStep[0] THEN
+	IF GVL_Global.stGamePlay.bClear THEN
+		GVL_Global.iStepNumber := 1;
+	END_IF
+	
+	IF GVL_Global.stGamePlay.bStart THEN
+		GVL_Global.iStepNumber := 2;
+	END_IF
+	
+// 1 = Clear - Clear all variables
+ELSIF GVL_Global.bStep[1] THEN
+	FB_Clear();
+	IF GVL_Global.bClear_Complete THEN
+		GVL_Global.stGamePlay.bClear := FALSE;
+		GVL_Global.bClear_Complete := FALSE;
+		GVL_Global.iStepNumber := 0;
+	END_IF
+	
+// 2 = Game Set Up - Game to get set up to play
+ELSIF GVL_Global.bStep[2] THEN
+	IF GVL_Global.bReadyToStart THEN
+		IF GVL_Global.bInitialStart THEN
+			FB_GameSetup();
+			IF GVL_Global.stGameSetup.bGameSetupComplete THEN
+				GVL_Global.bInitialStart := FALSE;
+				GVL_Global.bGameInProgress := TRUE;
+				GVL_Global.iStepNumber := 3;
+			END_IF
+		ELSE
+			IF GVL_Global.bGameInProgress THEN
+				GVL_Global.iStepNumber := 3;
+			ELSE
+				GVL_Global.iStepNumber := 0;
+			END_IF
+		END_IF
+	ELSE
+		FB_Clear();
+	END_IF
+	
+// 3 = Game Is Ongoing - Game is currently being played
+ELSIF GVL_Global.bStep[3] THEN
+	IF GVL_Global.bGameInProgress THEN
+		;
+	END_IF
+	;
+	
+// 4 = Pause Game - Game is paused or people have left the table
+ELSIF GVL_Global.bStep[4] THEN
+	;
+	
+// 5 = End Game - Finish game and display results
+ELSIF GVL_Global.bStep[5] THEN
+	;
+// 63-999 = Error State
+ELSIF GVL_Global.bStep[63] THEN
+	;
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_GamePlay">
+      <LineId Id="68" Count="1" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="45" Count="2" />
+      <LineId Id="135" Count="2" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="139" Count="1" />
+      <LineId Id="138" Count="0" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="49" Count="3" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="54" Count="1" />
+      <LineId Id="107" Count="0" />
+      <LineId Id="56" Count="2" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="94" Count="2" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="83" Count="1" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="111" Count="1" />
+      <LineId Id="123" Count="2" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="114" Count="1" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="59" Count="6" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

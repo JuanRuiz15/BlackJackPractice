@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_Dealer" Id="{cf948190-7967-499f-ab42-953edd3f9fa5}">
+    <Declaration><![CDATA[TYPE ST_Dealer :
+STRUCT
+	//Dealer hand
+	sCard			:	ARRAY[0..9] OF STRING(255); 	//Each card dealer has drawn
+	sCardSuit		:	ARRAY[0..9] OF STRING(255); 	//Each card's suit dealer has drawn	
+	bBust			:	BOOL;							//Dealer has busted
+	iHandTotal		:	DINT;							//Dealer's hand total
+	iNumberofCards	:	DINT;							//Number of cards dealer has drawn
+	sHand			: ARRAY[0..9] OF STRING(255);		//Dealer Hand
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

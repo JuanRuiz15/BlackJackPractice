@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_BasicStrategy" Id="{33cccd98-66b4-420f-9ada-ae20d1ac8286}">
+    <Declaration><![CDATA[TYPE ST_BasicStrategy :
+STRUCT
+	stHardTotals		:	ST_HardTotals;		//Hard Totals - Player has a total of 8 to 17
+	stPairSplitting		:	ST_PairSplitting;	//Pair Splitting - Player receives two of the same card
+	stSoftTotals		:	ST_SoftTotals;		//Soft Totals - Player has an A and  a 2-9
+	stSurrenderHands	:	ST_SurrenderHands;	//Surrender Hands - Player has a total that is best to surrender
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

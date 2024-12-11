@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <DUT Name="ST_HMI" Id="{a29010ba-b8bb-4cf4-80db-5b1d16882a9a}">
+    <Declaration><![CDATA[TYPE ST_HMI :
+STRUCT
+	bClear				: BOOL; //Clear all arrays, variables
+	bHMIRefresh			: BOOL; //Refresh HMI variables
+	bOnline				: BOOL;	//HMI is online
+	bStartHMIProgram	: BOOL;	//Start HMI program
+	bUploadInfo			: BOOL; //Upload infomration on HMI
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

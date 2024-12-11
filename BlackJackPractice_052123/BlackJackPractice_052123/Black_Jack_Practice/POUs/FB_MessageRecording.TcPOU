@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.10">
+  <POU Name="FB_MessageRecording" Id="{683ed490-e03e-4e98-9147-912713b63a7b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MessageRecording
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF GVL_Global.stGamePlay.sMessageType.bMessageToBeRecorded THEN
+	IF GVL_Global.stGamePlay.sMessageType.bErrorMessage THEN
+		;
+	ELSIF GVL_Global.stGamePlay.sMessageType.bFeedbackMessage THEN
+		;
+	ELSIF GVL_Global.stGamePlay.sMessageType.bInstructionMessage THEN
+		;
+	END_IF
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_MessageRecording">
+      <LineId Id="17" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
